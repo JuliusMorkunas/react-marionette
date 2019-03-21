@@ -23,7 +23,7 @@ class MarionetteComponent extends React.Component {
     }
 
     componentDidMount() {
-        this._regionManager = new Marionette.RegionManager();
+        this._regionManager = new Marionette.View();
         this._hostRegion = this._regionManager.addRegion('hostRegion', {
             el: this._el
         });

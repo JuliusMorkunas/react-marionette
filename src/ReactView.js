@@ -12,7 +12,7 @@
 import Marionette from 'backbone.marionette';
 import ReactBehavior from './ReactBehavior';
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
     initialize(options) {},
 
     template: false,
@@ -23,7 +23,6 @@ export default Marionette.ItemView.extend({
                 behaviorClass: ReactBehavior,
                 containerEl: null,
                 render: this.options.render,
-                mountPoint: this.options.mountPoint
             }
         };
     }

@@ -104,22 +104,28 @@ var MarionetteComponent = function (_React$Component) {
     createClass(MarionetteComponent, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            this._regionManager = new Marionette.RegionManager();
+            this._regionManager = new Marionette.View();
             this._hostRegion = this._regionManager.addRegion('hostRegion', {
                 el: this._el
             });
-            this._rebuildView(this.props);
+            this._rebuildView();
         }
     }, {
-        key: 'shouldComponentUpdate',
-        value: function shouldComponentUpdate(nextProps) {
-            if (nextProps.onUpdateOptions) {
-                nextProps.onUpdateOptions(this._view);
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(nextProps) {
+            if (this.props.view !== nextProps.view) {
+                throw new Error('[MarionetteComponent] error: `props.view` cannot be changed after the initial render.');
             }
-            if (this._view.shouldViewRebuild && this._view.shouldViewRebuild(nextProps.viewOptions)) {
-                this._rebuildView(nextProps);
+        }
+    }, {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate(prevProps) {
+            if (this.props.onUpdateOptions) {
+                this.props.onUpdateOptions(this._view, prevProps.viewOptions, this.props.viewOptions);
             }
-            return false;
+            if (this._view.shouldViewRebuild && this._view.shouldViewRebuild(this.props.viewOptions)) {
+                this._rebuildView();
+            }
         }
     }, {
         key: 'componentWillUnmount',
@@ -133,13 +139,13 @@ var MarionetteComponent = function (_React$Component) {
         }
     }, {
         key: '_rebuildView',
-        value: function _rebuildView(props) {
-            if (!props.view) {
+        value: function _rebuildView() {
+            if (!this.props.view) {
                 return;
             }
 
-            var View = props.view; // tslint:disable-line
-            this._view = new View(props.viewOptions);
+            var View = this.props.view;
+            this._view = new View(this.props.viewOptions);
             this._hostRegion.show(this._view);
         }
     }, {
@@ -175,20 +181,23 @@ MarionetteComponent.propTypes = {
 
 var ReactBehavior = Marionette.Behavior.extend({
     initialize: function initialize(options) {
-        if (!options.containerEl) {
-            throw new Error('Missing options: containerEl');
-        }
-        if (!options.containerEl) {
+        if (!options.render) {
             throw new Error('Missing options: render');
         }
     },
-    onShow: function onShow() {
-        ReactDOM.render(this.options.render(), this.__getContainerEl());
+    onRender: function onRender() {
+        this._mountReactComponent();
     },
     onDestroy: function onDestroy() {
-        ReactDOM.unmountComponentAtNode(this.__getContainerEl());
+        if (this._mounted) {
+            ReactDOM.unmountComponentAtNode(this._getContainerEl());
+        }
     },
-    __getContainerEl: function __getContainerEl() {
+    _mountReactComponent: function _mountReactComponent() {
+        ReactDOM.render(this.options.render(), this._getContainerEl());
+        this._mounted = true;
+    },
+    _getContainerEl: function _getContainerEl() {
         if (this.options.containerEl) {
             return this.$(this.options.containerEl)[0];
         }
@@ -207,7 +216,7 @@ var ReactBehavior = Marionette.Behavior.extend({
  *       actual or intended publication of such source code.
  */
 
-var ReactView = Marionette.ItemView.extend({
+var ReactView = Marionette.View.extend({
     initialize: function initialize(options) {},
 
 

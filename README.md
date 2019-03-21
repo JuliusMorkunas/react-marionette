@@ -39,8 +39,6 @@ The simplest way to render React components in your Marionette layout. Inside, c
 
 `render` - a function that returns a React node.
 
-`mountPoint` - `'onRender'` or `'onShow'`, defines the point at which the render of the React node occurs. Default: `'onShow'`.
-
 A more complicated example using Redux for state management and rendering a connected component:
 
 ```javascript
@@ -60,7 +58,7 @@ someRegion.show(view);
 ## ReactBehavior
 
 ```javascript
-const View = Marionette.ItemView.extend({
+const View = Marionette.View.extend({
     template: false,
     className: 'marionette-root',
     behaviors() {
@@ -69,7 +67,6 @@ const View = Marionette.ItemView.extend({
                 behaviorClass: ReactBehavior,
                 containerEl: null,
                 render: () => <div className="react-component">Hello, React!</div>,
-                mountPoint: 'onRender'
             }
         };
     }
@@ -90,18 +87,16 @@ This behavior gives you more flexibility when rendering a React node by providin
 
 `render` - a function that returns a React node.
 
-`mountPoint` - `'onRender'` or `'onShow'`, defines the point at which the render of the React node occurs. Default: `'onShow'`.
-
 `containerEl` - a jQuery selector that identifies the element that should be used to render the react node. Similarly to the `ui` selectors in `Marionette.View`, this selector is scoped to the view which this behavior is applied to.
 
 ## MarionetteComponent
 
 ```javascript
-const SimpleView = Marionette.ItemView.extend({
+const SimpleView = Marionette.View.extend({
     template({ name }) {
         return `Hello, ${name}`;
     },
-    templateHelpers() {
+    templateContext() {
         return {
             name: this.options.name
         };
@@ -157,11 +152,11 @@ onUpdateOptions(view, viewOptions, nextViewOptions) {
 Alternatively, `shouldViewRebuild` can be implemented inside the View to handle it's update requests:
 
 ```javascript
-const SimpleView = Marionette.ItemView.extend({
+const SimpleView = Marionette.View.extend({
     template({ name }) {
         return `Hello, ${name}`;
     },
-    templateHelpers() {
+    templateContext() {
         return {
             name: this.options.name
         };

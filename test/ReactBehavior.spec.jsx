@@ -5,7 +5,7 @@ import { ReactBehavior } from '../src/index';
 
 describe('ReactBehavior', () => {
     it('should render react component under the root element', () => {
-        const View = Marionette.ItemView.extend({
+        const View = Marionette.View.extend({
             template: false,
             className: 'marionette-root',
             behaviors() {
@@ -27,7 +27,7 @@ describe('ReactBehavior', () => {
     });
 
     it('should render react component under the container element', () => {
-        const View = Marionette.ItemView.extend({
+        const View = Marionette.View.extend({
             template() {
                 return '<div class="container-el"></div>';
             },

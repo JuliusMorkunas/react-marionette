@@ -3,11 +3,11 @@ import Marionette from 'backbone.marionette';
 import { mount } from 'enzyme';
 import { MarionetteComponent } from '../src/index';
 
-const SimpleView = Marionette.ItemView.extend({
+const SimpleView = Marionette.View.extend({
     template({ name }) {
         return `Hello, ${name}`;
     },
-    templateHelpers() {
+    templateContext() {
         return {
             name: this.options.name
         };

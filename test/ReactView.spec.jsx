@@ -1,17 +1,19 @@
 import React from 'react';
 import Marionette from 'backbone.marionette';
-import { mount } from 'enzyme';
 import { ReactView } from '../src/index';
 
 describe('ReactView', () => {
     it('should render react component', () => {
-        const regionManager = new Marionette.RegionManager();
-        const region = regionManager.addRegion('hostRegion', {
+        const RegionView = Marionette.View.extend({
+            regions: {}
+        });
+        const regionView = new RegionView();
+        const region = regionView.addRegion('hostRegion', {
             el: document.createElement('div')
         });
         const view = new ReactView({
             className: 'react-wrapper',
-            render: () => <div className="react-component">Hello, React</div>
+            render: () => <div className="react-component">Hello, React</div>,
         });
         region.show(view);
         const html = view.el.outerHTML;
@@ -23,7 +25,6 @@ describe('ReactView', () => {
         const view = new ReactView({
             className: 'react-wrapper',
             render: () => <div className="react-component">Hello, React</div>,
-            mountPoint: 'onRender'
         });
         view.render();
         const html = view.el.outerHTML;

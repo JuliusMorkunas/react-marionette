@@ -21,15 +21,7 @@ export default Marionette.Behavior.extend({
     },
 
     onRender() {
-        if (this.options.mountPoint === 'onRender') {
-            this._mountReactComponent();
-        }
-    },
-
-    onShow() {
-        if (this.options.mountPoint !== 'onRender') {
-            this._mountReactComponent();
-        }
+        this._mountReactComponent();
     },
 
     onDestroy() {
