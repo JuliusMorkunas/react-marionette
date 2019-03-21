@@ -1,5 +1,5 @@
 import Marionette from 'backbone.marionette';
-import React from 'react';
+import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
@@ -80,15 +80,15 @@ var possibleConstructorReturn = function (self, call) {
  *       actual or intended publication of such source code.
  */
 
-var MarionetteComponent = function (_React$Component) {
-    inherits(MarionetteComponent, _React$Component);
+var MarionetteComponent = function (_Component) {
+    inherits(MarionetteComponent, _Component);
 
     function MarionetteComponent(props) {
         classCallCheck(this, MarionetteComponent);
 
         var _this = possibleConstructorReturn(this, (MarionetteComponent.__proto__ || Object.getPrototypeOf(MarionetteComponent)).call(this, props));
 
-        _this._el = null;
+        _this._el = createRef();
         _this._view = null;
         _this._hostRegion = null;
         _this._regionManager = null;
@@ -100,7 +100,7 @@ var MarionetteComponent = function (_React$Component) {
         value: function componentDidMount() {
             this._regionManager = new Marionette.View();
             this._hostRegion = this._regionManager.addRegion('hostRegion', {
-                el: this._el
+                el: this._el.current
             });
             this._rebuildView();
         }
@@ -145,15 +145,11 @@ var MarionetteComponent = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this2 = this;
-
-            return React.createElement('div', { className: this.props.className, ref: function ref(el) {
-                    return _this2._el = el;
-                } });
+            return React.createElement('div', { className: this.props.className, ref: this._el });
         }
     }]);
     return MarionetteComponent;
-}(React.Component);
+}(Component);
 
 MarionetteComponent.propTypes = {
     view: PropTypes.func.isRequired,

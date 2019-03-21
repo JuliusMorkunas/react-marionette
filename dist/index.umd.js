@@ -5,7 +5,7 @@
 }(this, (function (exports,Marionette,React,PropTypes,ReactDOM) { 'use strict';
 
 Marionette = Marionette && Marionette.hasOwnProperty('default') ? Marionette['default'] : Marionette;
-React = React && React.hasOwnProperty('default') ? React['default'] : React;
+var React__default = 'default' in React ? React['default'] : React;
 PropTypes = PropTypes && PropTypes.hasOwnProperty('default') ? PropTypes['default'] : PropTypes;
 ReactDOM = ReactDOM && ReactDOM.hasOwnProperty('default') ? ReactDOM['default'] : ReactDOM;
 
@@ -86,15 +86,15 @@ var possibleConstructorReturn = function (self, call) {
  *       actual or intended publication of such source code.
  */
 
-var MarionetteComponent = function (_React$Component) {
-    inherits(MarionetteComponent, _React$Component);
+var MarionetteComponent = function (_Component) {
+    inherits(MarionetteComponent, _Component);
 
     function MarionetteComponent(props) {
         classCallCheck(this, MarionetteComponent);
 
         var _this = possibleConstructorReturn(this, (MarionetteComponent.__proto__ || Object.getPrototypeOf(MarionetteComponent)).call(this, props));
 
-        _this._el = null;
+        _this._el = React.createRef();
         _this._view = null;
         _this._hostRegion = null;
         _this._regionManager = null;
@@ -106,7 +106,7 @@ var MarionetteComponent = function (_React$Component) {
         value: function componentDidMount() {
             this._regionManager = new Marionette.View();
             this._hostRegion = this._regionManager.addRegion('hostRegion', {
-                el: this._el
+                el: this._el.current
             });
             this._rebuildView();
         }
@@ -151,11 +151,7 @@ var MarionetteComponent = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this2 = this;
-
-            return React.createElement('div', { className: this.props.className, ref: function ref(el) {
-                    return _this2._el = el;
-                } });
+            return React__default.createElement('div', { className: this.props.className, ref: this._el });
         }
     }]);
     return MarionetteComponent;

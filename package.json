@@ -22,7 +22,7 @@
   ],
   "devDependencies": {
     "@types/jest": "^20.0.6",
-    "@types/react": "16.0.31",
+    "@types/react": "16.8.8",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
     "babel-eslint": "^7.2.3",
@@ -47,9 +47,9 @@
     "jest": "^22.1.4",
     "jquery": "^3.3.1",
     "prettier": "^1.10.2",
-    "prop-types": "^15.6.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
     "rollup": "^0.48.2",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-node-resolve": "^3.0.2",
@@ -58,11 +58,11 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "@types/react": "16.0.31",
+    "@types/react": "16.8.8",
     "backbone.marionette": "^3.0.0",
-    "prop-types": "^15.6.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "prop-types": "^15.7.2",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
   },
   "jest": {
     "testRegex": "(/test/.*\\.spec.jsx?)$",

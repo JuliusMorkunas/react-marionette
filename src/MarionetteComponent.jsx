@@ -10,13 +10,13 @@
  */
 
 import Marionette from 'backbone.marionette';
-import React from 'react';
+import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 
-class MarionetteComponent extends React.Component {
+class MarionetteComponent extends Component {
     constructor(props) {
         super(props);
-        this._el = null;
+        this._el = createRef();
         this._view = null;
         this._hostRegion = null;
         this._regionManager = null;
@@ -25,7 +25,7 @@ class MarionetteComponent extends React.Component {
     componentDidMount() {
         this._regionManager = new Marionette.View();
         this._hostRegion = this._regionManager.addRegion('hostRegion', {
-            el: this._el
+            el: this._el.current
         });
         this._rebuildView();
     }
@@ -40,9 +40,11 @@ class MarionetteComponent extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.onUpdateOptions) {
-            this.props.onUpdateOptions(this._view, prevProps.viewOptions, this.props.viewOptions);
+            this.props.onUpdateOptions(this._view, prevProps.viewOptions,
+                this.props.viewOptions);
         }
-        if (this._view.shouldViewRebuild && this._view.shouldViewRebuild(this.props.viewOptions)) {
+        if (this._view.shouldViewRebuild &&
+            this._view.shouldViewRebuild(this.props.viewOptions)) {
             this._rebuildView();
         }
     }
@@ -66,7 +68,7 @@ class MarionetteComponent extends React.Component {
     }
 
     render() {
-        return <div className={this.props.className} ref={el => (this._el = el)} />;
+        return <div className={this.props.className} ref={this._el}/>;
     }
 }
 
